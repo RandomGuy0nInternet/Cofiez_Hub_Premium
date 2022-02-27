@@ -15,8 +15,10 @@ function Library:Window(title)
 	local UIPadding = Instance.new("UIPadding")
 	local Title = Instance.new("TextLabel")
 	local Mini = Instance.new("TextButton")
+    local Destroy = Instance.new("TextButton")
 	local UICorner_9 = Instance.new("UICorner")
     local UICorner_105 = Instance.new("UICorner")
+    local UICorner_100 = Instance.new("UICorner")
 
 	ScreenGui.Name = "Cofiez_Hub"
 	ScreenGui.Parent = game.CoreGui
@@ -83,6 +85,29 @@ function Library:Window(title)
 
 	UICorner_9.CornerRadius = UDim.new(0, 2)
 	UICorner_9.Parent = Mini
+
+    Destroy.Name = "Destroy"
+	Destroy.Parent = Top
+	Destroy.BackgroundColor3 = getgenv().ConfigsUI["ColorDestroy"]["BackgroundColor"]
+	Destroy.ClipsDescendants = true
+	Destroy.Position = UDim2.new(getgenv().ConfigsUI["DestroyPosX"], 0, getgenv().ConfigsUI["DestroyPosY"], 0)  
+	Destroy.Size = UDim2.new(0, getgenv().ConfigsUI["DestroySizeX"], 0, getgenv().ConfigsUI["DestroySizeY"])
+	Destroy.ZIndex = 2
+	Destroy.Font = Enum.Font.SourceSans
+	Destroy.Text = ""
+	Destroy.TextColor3 = Color3.fromRGB(0, 0, 0)
+	Destroy.TextSize = 14.000
+    Destroy.MouseButton1Click:Connect(function()
+        for _, v in pairs(game.CoreGui:GetChildren()) do
+            if v.Name == "Cofiez_Hub" then
+                v:Destroy()
+            end
+        end
+    end)
+
+	UICorner_100.CornerRadius = UDim.new(0, 2)
+	UICorner_100.Parent = Destroy
+
 
 	Mini.MouseButton1Click:Connect(function()
 		if Mini.BackgroundColor3 == getgenv().ConfigsUI["ColorMini"]["BackgroundColor_On"] then
