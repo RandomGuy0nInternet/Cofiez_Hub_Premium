@@ -1,5 +1,5 @@
 for _, v in pairs(game.CoreGui:GetChildren()) do
-	if v.Name == "UILib" then
+	if v.Name == "Cofiez_Hub" then
 		v:Destroy()
 	end
 end
@@ -16,8 +16,9 @@ function Library:Window(title)
 	local Title = Instance.new("TextLabel")
 	local Mini = Instance.new("TextButton")
 	local UICorner_9 = Instance.new("UICorner")
+    local UICorner_105 = Instance.new("UICorner")
 
-	ScreenGui.Name = "UILib"
+	ScreenGui.Name = "Cofiez_Hub"
 	ScreenGui.Parent = game.CoreGui
 	ScreenGui.ZIndexBehavior = Enum.ZIndexBehavior.Sibling
 
@@ -26,16 +27,16 @@ function Library:Window(title)
 	Top.AnchorPoint = Vector2.new(0.5, 0.5)
 	Top.BackgroundColor3 = Color3.fromRGB(40, 40, 40)
 	Top.BorderSizePixel = 0
-	Top.Position = UDim2.new(0.5, 0, 0.35, 0)
-	Top.Size = UDim2.new(0, 389, 0, 29)
+	Top.Position = UDim2.new(getgenv().ConfigsUI["WindowTopPosX"], 0, getgenv().ConfigsUI["WindowTopPosY"], 0)
+	Top.Size = UDim2.new(0, getgenv().ConfigsUI["WindowTopSizeX"], 0, getgenv().ConfigsUI["WindowTopSizeY"])
 	Top.Active = true
 
 	Main.Name = "Main"
 	Main.Parent = Top
 	Main.BackgroundColor3 = Color3.fromRGB(30, 30, 30)
 	Main.BorderSizePixel = 0
-	Main.Position = UDim2.new(0, 0, 1, 0)
-	Main.Size = UDim2.new(0, 389, 0, 234)
+	Main.Position = UDim2.new(getgenv().ConfigsUI["WindowPosX"], 0, getgenv().ConfigsUI["WindowPosY"], 0)
+	Main.Size = UDim2.new(0, getgenv().ConfigsUI["WindowSizeX"], 0, getgenv().ConfigsUI["WindowSizeY"])
 	Main.ClipsDescendants = true
 
 	TabHolder.Name = "TabHolder"
@@ -58,22 +59,22 @@ function Library:Window(title)
 	Title.Parent = Top
 	Title.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
 	Title.BackgroundTransparency = 1.000
-	Title.Position = UDim2.new(0.0161290318, 0, 0.103448279, 0)
-	Title.Size = UDim2.new(0, 162, 0, 23)
-	Title.Font = Enum.Font.GothamSemibold
+	Title.Position = UDim2.new(getgenv().ConfigsUI["TitlePosX"], 0, getgenv().ConfigsUI["TitlePosY"], 0)
+	Title.Size = UDim2.new(0, getgenv().ConfigsUI["TitleSizeX"], 0, getgenv().ConfigsUI["TitleSizeX"])
+	Title.Font = getgenv().ConfigsUI["TitleFont"]
 	Title.Text = title
 	Title.TextColor3 = Color3.fromRGB(255, 255, 255)
-	Title.TextScaled = true
-	Title.TextSize = 14.000
-	Title.TextWrapped = true
+	Title.TextScaled = getgenv().ConfigsUI["TitleTextScaled"]
+	Title.TextSize = getgenv().ConfigsUI["TitleTextSize"]
+	Title.TextWrapped = getgenv().ConfigsUI["TitleTextWrapped"]
 	Title.TextXAlignment = Enum.TextXAlignment.Left
 
 	Mini.Name = "Mini"
 	Mini.Parent = Top
-	Mini.BackgroundColor3 = Color3.fromRGB(0, 255, 128)
+	Mini.BackgroundColor3 = getgenv().ConfigsUI["ColorMini"]["BackgroundColor_On"]
 	Mini.ClipsDescendants = true
-	Mini.Position = UDim2.new(0.933179677, 0, 0.137931034, 0)
-	Mini.Size = UDim2.new(0, 21, 0, 19)
+	Mini.Position = UDim2.new(getgenv().ConfigsUI["MiniPosX"], 0, getgenv().ConfigsUI["MiniPosY"], 0)  
+	Mini.Size = UDim2.new(0, getgenv().ConfigsUI["MiniSizeX"], 0, getgenv().ConfigsUI["MiniSizeY"])
 	Mini.ZIndex = 2
 	Mini.Font = Enum.Font.SourceSans
 	Mini.Text = ""
@@ -84,18 +85,18 @@ function Library:Window(title)
 	UICorner_9.Parent = Mini
 
 	Mini.MouseButton1Click:Connect(function()
-		if Mini.BackgroundColor3 == Color3.fromRGB(0, 255, 128) then
-			game:GetService("TweenService"):Create(Mini, TweenInfo.new(0.35), {BackgroundColor3 = Color3.fromRGB(255, 0, 102)}):Play()
-			Main:TweenSize(UDim2.new(0, 389,0, 0), "Out", "Quad", 0.4, true)
+		if Mini.BackgroundColor3 == getgenv().ConfigsUI["ColorMini"]["BackgroundColor_On"] then
+			game:GetService("TweenService"):Create(Mini, TweenInfo.new(0.35), {BackgroundColor3 = getgenv().ConfigsUI["ColorMini"]["BackgroundColor_Off"]}):Play()
+			Main:TweenSize(UDim2.new(0, getgenv().ConfigsUI["WindowSizeX"],0, 0), "Out", "Quad", 0.4, true)
 		else
-			game:GetService("TweenService"):Create(Mini, TweenInfo.new(0.35), {BackgroundColor3 = Color3.fromRGB(0, 255, 128)}):Play()
-			Main:TweenSize(UDim2.new(0, 389,0, 234), "Out", "Quad", 0.4, true)
+			game:GetService("TweenService"):Create(Mini, TweenInfo.new(0.35), {BackgroundColor3 = getgenv().ConfigsUI["ColorMini"]["BackgroundColor_On"]}):Play()
+			Main:TweenSize(UDim2.new(0, getgenv().ConfigsUI["WindowSizeX"],0, getgenv().ConfigsUI["WindowSizeY"]), "Out", "Quad", 0.4, true)
 		end
 	end)
 
 	function dragify(Frame)
 		dragToggle = nil
-		dragSpeed = .25 -- You can edit this.
+		dragSpeed = getgenv().ConfigsUI["DragSpeed"]
 		dragInput = nil
 		dragStart = nil
 		dragPos = nil
@@ -147,11 +148,11 @@ function Library:Window(title)
 
 		TabButton.Name = "TabButton"
 		TabButton.Parent = TabHolder
-		TabButton.BackgroundColor3 = Library.TabCount == 0 and Color3.fromRGB(1, 255, 120) or Color3.fromRGB(40, 40, 40)
+		TabButton.BackgroundColor3 = Library.TabCount == 0 and getgenv().ConfigsUI["ColorTab"]["BackgroundColor_On"] or getgenv().ConfigsUI["ColorTab"]["BackgroundColor_Off"]
 		TabButton.BorderSizePixel = 0
 		TabButton.ClipsDescendants = true
-		TabButton.Position = UDim2.new(0.0357142873, 0, 0.024630541, 0)
-		TabButton.Size = UDim2.new(0, 104, 0, 28)
+		TabButton.Position = UDim2.new(getgenv().ConfigsUI["TabButtonPosX"], 0, getgenv().ConfigsUI["TabButtonPosY"], 0)
+		TabButton.Size = UDim2.new(0, getgenv().ConfigsUI["TabButtonSizeX"], 0, getgenv().ConfigsUI["TabButtonSizeY"])
 		TabButton.AutoButtonColor = false
 		TabButton.Font = Enum.Font.SourceSans
 		TabButton.Text = ""
@@ -165,22 +166,22 @@ function Library:Window(title)
 		TabName.Parent = TabButton
 		TabName.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
 		TabName.BackgroundTransparency = 1.000
-		TabName.Position = UDim2.new(0.0865384638, 0, 0.189560443, 0)
-		TabName.Size = UDim2.new(0, 71, 0, 18)
-		TabName.Font = Enum.Font.Gotham
+		TabName.Position = UDim2.new(getgenv().ConfigsUI["TabNamePosX"], 0, getgenv().ConfigsUI["TabNamePosY"], 0)
+		TabName.Size = UDim2.new(0, getgenv().ConfigsUI["TabNameSizeX"], 0, getgenv().ConfigsUI["TabNameSizeY"])
+		TabName.Font = getgenv().ConfigsUI["TabNameFont"]
 		TabName.Text = title
 		TabName.TextColor3 = Library.TabCount == 0 and Color3.fromRGB(60, 60, 60) or Color3.fromRGB(255, 255, 255)
-		TabName.TextScaled = true
-		TabName.TextSize = 14.000
-		TabName.TextWrapped = true
+		TabName.TextScaled = getgenv().ConfigsUI["TabNameTextScaled"]
+		TabName.TextSize = getgenv().ConfigsUI["TabNameTextSize"]
+		TabName.TextWrapped = getgenv().ConfigsUI["TabNameTextWrapped"]
 		TabName.TextXAlignment = Enum.TextXAlignment.Left
 
 		Tab.Name = "Tab"
 		Tab.Parent = Main
 		Tab.BackgroundColor3 = Color3.fromRGB(40, 40, 40)
 		Tab.BorderSizePixel = 0
-		Tab.Position = UDim2.new(0.31195429, 0, 0.024630541, 0)
-		Tab.Size = UDim2.new(0, 267, 0, 227)
+		Tab.Position = UDim2.new(getgenv().ConfigsUI["TabPosX"], 0, getgenv().ConfigsUI["TabPosY"], 0)
+		Tab.Size = UDim2.new(0, getgenv().ConfigsUI["TabSizeX"], 0, getgenv().ConfigsUI["TabSizeY"])  
 		Tab.Visible = Library.TabCount == 0
 
 		Container.Name = "Container"
@@ -188,7 +189,7 @@ function Library:Window(title)
 		Container.Active = true
 		Container.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
 		Container.BackgroundTransparency = 1.000
-		Container.Size = UDim2.new(0, 267, 0, 227)
+		Container.Size = UDim2.new(0, getgenv().ConfigsUI["TabSizeX"], 0, getgenv().ConfigsUI["TabSizeY"])
 		Container.CanvasSize = UDim2.new(0, 0, 6, 0)
 		Container.ScrollBarThickness = 0
 
@@ -210,11 +211,11 @@ function Library:Window(title)
 			
 			for i,v in pairs(TabHolder:GetChildren()) do
 				if v.Name == "TabButton" then
-					v.BackgroundColor3 = Color3.fromRGB(40, 40, 40)
+					v.BackgroundColor3 = getgenv().ConfigsUI["ColorTab"]["BackgroundColor_Off"]
 					v.TabName.TextColor3 = Color3.fromRGB(255, 255, 255)
 				end
 			end
-			TabButton.BackgroundColor3 = Color3.fromRGB(1, 255, 120)
+			TabButton.BackgroundColor3 = getgenv().ConfigsUI["ColorTab"]["BackgroundColor_On"]
 			TabName.TextColor3 = Color3.fromRGB(60, 60, 60)
 		end)
 
@@ -232,8 +233,8 @@ function Library:Window(title)
 			Button.BackgroundColor3 = Color3.fromRGB(30, 30, 30)
 			Button.BorderSizePixel = 0
 			Button.ClipsDescendants = true
-			Button.Position = UDim2.new(0.0355805233, 0, 0.0252525248, 0)
-			Button.Size = UDim2.new(0, 248, 0, 28)
+			Button.Position = UDim2.new(getgenv().ConfigsUI["ButtonPosX"], 0, getgenv().ConfigsUI["ButtonPosY"], 0)
+			Button.Size = UDim2.new(0, getgenv().ConfigsUI["ButtonSizeX"], 0, getgenv().ConfigsUI["ButtonSizeY"])
 			Button.Font = Enum.Font.SourceSans
 			Button.Text = ""
 			Button.TextColor3 = Color3.fromRGB(0, 0, 0)
@@ -249,14 +250,14 @@ function Library:Window(title)
 			ButtonName.Parent = Button
 			ButtonName.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
 			ButtonName.BackgroundTransparency = 1.000
-			ButtonName.Position = UDim2.new(0, 0,0.143, 0)
-			ButtonName.Size = UDim2.new(0, 248,0, 19)
-			ButtonName.Font = Enum.Font.Gotham
+			ButtonName.Position = UDim2.new(getgenv().ConfigsUI["ButtonNamePosX"], 0,getgenv().ConfigsUI["ButtonNamePosY"], 0)
+			ButtonName.Size = UDim2.new(0, getgenv().ConfigsUI["ButtonNameSizeX"],0 ,getgenv().ConfigsUI["ButtonNameSizeY"])
+			ButtonName.Font = getgenv().ConfigsUI["ButtonNameFont"]
 			ButtonName.Text = name
 			ButtonName.TextColor3 = Color3.fromRGB(255, 255, 255)
-			ButtonName.TextScaled = true
-			ButtonName.TextSize = 14.000
-			ButtonName.TextWrapped = true
+			ButtonName.TextScaled = getgenv().ConfigsUI["ButtonNameTextScaled"]
+			ButtonName.TextSize = getgenv().ConfigsUI["ButtonNameTextSize"]
+			ButtonName.TextWrapped = getgenv().ConfigsUI["ButtonNameTextWrapped"]
 
 			Button.MouseButton1Click:Connect(function()
 				local c = Instance.new("ImageLabel", Button)
@@ -297,18 +298,18 @@ function Library:Window(title)
 			ToggleBack.Name = "ToggleBack"
 			ToggleBack.Parent = Container
 			ToggleBack.BackgroundColor3 = Color3.fromRGB(30, 30, 30)
-			ToggleBack.Position = UDim2.new(-0.228464425, 0, 0.017676767, 0)
-			ToggleBack.Size = UDim2.new(0, 248, 0, 28)
+			ToggleBack.Position = UDim2.new(getgenv().ConfigsUI["TogglePosX"], 0, getgenv().ConfigsUI["TogglePosY"], 0)
+			ToggleBack.Size = UDim2.new(0, getgenv().ConfigsUI["ToggleSizeX"], 0, getgenv().ConfigsUI["ToggleSizeY"])
 
 			UICorner_3.CornerRadius = UDim.new(0, 3)
 			UICorner_3.Parent = ToggleBack
 
 			Toggle.Name = "Toggle"
 			Toggle.Parent = ToggleBack
-			Toggle.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
+			Toggle.BackgroundColor3 = getgenv().ConfigsUI["ColorToggle"]["BackgroundColor_Off"]
 			Toggle.BackgroundTransparency = 1.000
 			Toggle.ClipsDescendants = true
-			Toggle.Size = UDim2.new(0, 248, 0, 28)
+			Toggle.Size = UDim2.new(0, getgenv().ConfigsUI["ToggleSizeX"], 0, getgenv().ConfigsUI["ToggleSizeY"])
 			Toggle.ZIndex = 2
 			Toggle.Font = Enum.Font.SourceSans
 			Toggle.Text = ""
@@ -317,33 +318,33 @@ function Library:Window(title)
 
 			ToggleLogo.Name = "ToggleLogo"
 			ToggleLogo.Parent = ToggleBack
-			ToggleLogo.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
-			ToggleLogo.Position = UDim2.new(0.0282258056, 0, 0.178571433, 0)
-			ToggleLogo.Size = UDim2.new(0, 20, 0, 17)
+			ToggleLogo.BackgroundColor3 = getgenv().ConfigsUI["ColorToggle"]["BackgroundColor_Off"]
+			ToggleLogo.Position = UDim2.new(getgenv().ConfigsUI["ToggleLogoPosX"], 0, getgenv().ConfigsUI["ToggleLogoPosY"], 0)
+			ToggleLogo.Size = UDim2.new(0, getgenv().ConfigsUI["ToggleLogoSizeX"], 0, getgenv().ConfigsUI["ToggleLogoSizeY"])
 
 			UICorner_4.CornerRadius = UDim.new(0, 3)
 			UICorner_4.Parent = ToggleLogo
 
 			ToggleName.Name = "ToggleName"
 			ToggleName.Parent = ToggleBack
-			ToggleName.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
+			ToggleName.BackgroundColor3 = getgenv().ConfigsUI["ColorToggle"]["BackgroundColor_Off"]
 			ToggleName.BackgroundTransparency = 1.000
-			ToggleName.Position = UDim2.new(0.149193555, 0, 0.142857149, 0)
-			ToggleName.Size = UDim2.new(0, 248, 0, 19)
-			ToggleName.Font = Enum.Font.Gotham
+			ToggleName.Position = UDim2.new(getgenv().ConfigsUI["ToggleNamePosX"], 0, getgenv().ConfigsUI["ToggleNamePosY"], 0)
+			ToggleName.Size = UDim2.new(0, getgenv().ConfigsUI["ToggleNameSizeX"], 0, getgenv().ConfigsUI["ToggleNameSizeY"])
+			ToggleName.Font = getgenv().ConfigsUI["ToggleNameFont"]
 			ToggleName.Text = name
 			ToggleName.TextColor3 = Color3.fromRGB(255, 255, 255)
-			ToggleName.TextScaled = true
-			ToggleName.TextSize = 14.000
-			ToggleName.TextWrapped = true
+			ToggleName.TextScaled = getgenv().ConfigsUI["ToggleNameTextScaled"]
+			ToggleName.TextSize = getgenv().ConfigsUI["ToggleNameTextSize"]
+			ToggleName.TextWrapped = getgenv().ConfigsUI["ToggleNameTextWrapped"]
 			ToggleName.TextXAlignment = Enum.TextXAlignment.Left
 
 			Toggle.MouseButton1Click:Connect(function()
-				if ToggleLogo.BackgroundColor3 == Color3.fromRGB(255, 255, 255) then
-					game:GetService("TweenService"):Create(ToggleLogo, TweenInfo.new(0.25), {BackgroundColor3 = Color3.fromRGB(1, 255, 120)}):Play()
+				if ToggleLogo.BackgroundColor3 == getgenv().ConfigsUI["ColorToggle"]["BackgroundColor_Off"] then
+					game:GetService("TweenService"):Create(ToggleLogo, TweenInfo.new(0.25), {BackgroundColor3 = getgenv().ConfigsUI["ColorToggle"]["BackgroundColor_On"]}):Play() 
 					callback(true)
 				else
-					game:GetService("TweenService"):Create(ToggleLogo, TweenInfo.new(0.25), {BackgroundColor3 = Color3.fromRGB(255, 255, 255)}):Play()
+					game:GetService("TweenService"):Create(ToggleLogo, TweenInfo.new(0.25), {BackgroundColor3 = getgenv().ConfigsUI["ColorToggle"]["BackgroundColor_Off"]}):Play()
 					callback(false)
 				end
 			end)
@@ -361,8 +362,8 @@ function Library:Window(title)
 			SliderBack.Name = "SliderBack"
 			SliderBack.Parent = Container
 			SliderBack.BackgroundColor3 = Color3.fromRGB(30, 30, 30)
-			SliderBack.Position = UDim2.new(-0.228464425, 0, 0.017676767, 0)
-			SliderBack.Size = UDim2.new(0, 248, 0, 28)
+			SliderBack.Position = UDim2.new(getgenv().ConfigsUI["SliderBackPosX"], 0, getgenv().ConfigsUI["SliderBackPosY"], 0)
+			SliderBack.Size = UDim2.new(0, getgenv().ConfigsUI["SliderBackSizeX"], 0, getgenv().ConfigsUI["SliderBackSizeY"])
 			SliderBack.ClipsDescendants = true
 
 			UICorner_5.CornerRadius = UDim.new(0, 3)
@@ -372,20 +373,20 @@ function Library:Window(title)
 			SliderName.Parent = SliderBack
 			SliderName.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
 			SliderName.BackgroundTransparency = 1.000
-			SliderName.Position = UDim2.new(0.0282258056, 0, 0.178571433, 0)
-			SliderName.Size = UDim2.new(0, 80, 0, 19)
+			SliderName.Position = UDim2.new(getgenv().ConfigsUI["SliderNamePosX"], 0, getgenv().ConfigsUI["SliderNamePosY"], 0)
+			SliderName.Size = UDim2.new(0, getgenv().ConfigsUI["SliderNameSizeX"], 0, getgenv().ConfigsUI["SliderNameSizeY"])
 			SliderName.ZIndex = 2
-			SliderName.Font = Enum.Font.Gotham
+			SliderName.Font = getgenv().ConfigsUI["SliderNameFont"]
 			SliderName.Text = name
 			SliderName.TextColor3 = Color3.fromRGB(255, 255, 255)
-			SliderName.TextScaled = true
-			SliderName.TextSize = 14.000
-			SliderName.TextWrapped = true
+			SliderName.TextScaled = getgenv().ConfigsUI["SliderNameTextScaled"]
+			SliderName.TextSize = getgenv().ConfigsUI["SliderNameTextSize"]
+			SliderName.TextWrapped = getgenv().ConfigsUI["SliderNameTextWrapped"]
 			SliderName.TextXAlignment = Enum.TextXAlignment.Left
 
 			Slider.Name = "Slider"
 			Slider.Parent = SliderBack
-			Slider.BackgroundColor3 = Color3.fromRGB(1, 255, 120)
+			Slider.BackgroundColor3 = getgenv().ConfigsUI["ColorSlider"]["BackgroundColor_Value"]
 			Slider.Size = UDim2.new((start or 0) / max, 0, 1, 0);
 
 			UICorner_6.CornerRadius = UDim.new(0, 3)
@@ -395,14 +396,14 @@ function Library:Window(title)
 			SliderValue.Parent = SliderBack
 			SliderValue.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
 			SliderValue.BackgroundTransparency = 1.000
-			SliderValue.Position = UDim2.new(0.802419364, 0, 0.178571433, 0)
-			SliderValue.Size = UDim2.new(0, 49, 0, 19)
-			SliderValue.Font = Enum.Font.Gotham
+			SliderValue.Position = UDim2.new(getgenv().ConfigsUI["SliderValuePosX"], 0, getgenv().ConfigsUI["SliderValuePosY"], 0)
+			SliderValue.Size = UDim2.new(0, getgenv().ConfigsUI["SliderValueSizeX"], 0, getgenv().ConfigsUI["SliderValueSizeY"])
+			SliderValue.Font = getgenv().ConfigsUI["SliderValueFont"]
 			SliderValue.Text = tostring(start and math.floor((start / max) * (max - min) + min) or 0) .. "/" .. max
 			SliderValue.TextColor3 = Color3.fromRGB(255, 255, 255)
-			SliderValue.TextScaled = true
-			SliderValue.TextSize = 14.000
-			SliderValue.TextWrapped = true
+			SliderValue.TextScaled = getgenv().ConfigsUI["SliderValueTextScaled"]
+			SliderValue.TextSize = getgenv().ConfigsUI["SliderValueTextSize"]
+			SliderValue.TextWrapped = getgenv().ConfigsUI["SliderValueTextWrapped"]
 
 			local function slide(input)
 				local pos = UDim2.new(math.clamp((input.Position.X - SliderBack.AbsolutePosition.X) / SliderBack.AbsoluteSize.X, 0, 1), 0, 1, 0);
@@ -447,19 +448,19 @@ function Library:Window(title)
 			BoxBack.Name = "BoxBack"
 			BoxBack.Parent = Container
 			BoxBack.BackgroundColor3 = Color3.fromRGB(30, 30, 30)
-			BoxBack.Size = UDim2.new(0, 248, 0, 28)
+			BoxBack.Size = UDim2.new(0, getgenv().ConfigsUI["BoxBackSizeX"], 0, getgenv().ConfigsUI["BoxBackSizeY"])
 			BoxBack.ClipsDescendants = true
 
 			Box.Name = "Box"
 			Box.Parent = BoxBack
 			Box.BackgroundColor3 = Color3.fromRGB(45, 45, 45)
 			Box.ClipsDescendants = true
-			Box.Position = UDim2.new(0.735, 0, 0.1, 0)
-			Box.Size = UDim2.new(0, 63, 0, 23)
-			Box.Font = Enum.Font.Gotham
+			Box.Position = UDim2.new(getgenv().ConfigsUI["BoxPosX"], 0, getgenv().ConfigsUI["BoxPosY"], 0)
+			Box.Size = UDim2.new(0, getgenv().ConfigsUI["BoxSizeX"], 0, getgenv().ConfigsUI["BoxSizeY"])
+			Box.Font = getgenv().ConfigsUI["BoxFont"]
 			Box.Text = string
 			Box.TextColor3 = Color3.fromRGB(255, 255, 255)
-			Box.TextSize = 16.000
+			Box.TextSize = getgenv().ConfigsUI["BoxTextSize"]
 			Box.FocusLost:Connect(function()
 				callback(Box.Text)
 			end)
@@ -474,14 +475,14 @@ function Library:Window(title)
 			BoxName.Parent = BoxBack
 			BoxName.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
 			BoxName.BackgroundTransparency = 1.000
-			BoxName.Position = UDim2.new(0.0282258056, 0, 0.142857149, 0)
-			BoxName.Size = UDim2.new(0, 80, 0, 19)
-			BoxName.Font = Enum.Font.Gotham
+			BoxName.Position = UDim2.new(getgenv().ConfigsUI["BoxNamePosX"], 0, getgenv().ConfigsUI["BoxNamePosY"], 0)
+			BoxName.Size = UDim2.new(0, getgenv().ConfigsUI["BoxNameSizeX"], 0, getgenv().ConfigsUI["BoxNameSizeY"])
+			BoxName.Font = getgenv().ConfigsUI["BoxNameFont"]
 			BoxName.Text = name
 			BoxName.TextColor3 = Color3.fromRGB(255, 255, 255)
-			BoxName.TextScaled = true
-			BoxName.TextSize = 14.000
-			BoxName.TextWrapped = true
+			BoxName.TextScaled = getgenv().ConfigsUI["BoxNameTextScaled"]
+			BoxName.TextSize = getgenv().ConfigsUI["BoxNameTextSize"]
+			BoxName.TextWrapped = getgenv().ConfigsUI["BoxNameTextWrapped"]
 			BoxName.TextXAlignment = Enum.TextXAlignment.Left
 		end
 		
@@ -492,14 +493,14 @@ function Library:Window(title)
 			Label.Parent = Container
 			Label.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
 			Label.BackgroundTransparency = 1.000
-			Label.Position = UDim2.new(0.0355805233, 0, 0.603524208, 0)
-			Label.Size = UDim2.new(0, 248, 0, 20)
-			Label.Font = Enum.Font.Gotham
+			Label.Position = UDim2.new(getgenv().ConfigsUI["LabelPosX"], 0, getgenv().ConfigsUI["LabelPosY"], 0)
+			Label.Size = UDim2.new(0, getgenv().ConfigsUI["LabelSizeX"], 0, getgenv().ConfigsUI["LabelSizeY"])
+			Label.Font = getgenv().ConfigsUI["LabelFont"]
 			Label.Text = text
 			Label.TextColor3 = Color3.fromRGB(255, 255, 255)
-			Label.TextScaled = true
-			Label.TextSize = 14.000
-			Label.TextWrapped = true
+			Label.TextScaled = getgenv().ConfigsUI["LabelTextScaled"]
+			Label.TextSize = getgenv().ConfigsUI["LabelTextSize"]
+			Label.TextWrapped = getgenv().ConfigsUI["LabelTextWrapped"]
 		end
 
 		return Lib
