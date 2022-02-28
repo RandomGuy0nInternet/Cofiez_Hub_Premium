@@ -62,7 +62,7 @@ function Library:Window(title)
 	Title.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
 	Title.BackgroundTransparency = 1.000
 	Title.Position = UDim2.new(getgenv().ConfigsUI["TitlePosX"], 0, getgenv().ConfigsUI["TitlePosY"], 0)
-	Title.Size = UDim2.new(0, getgenv().ConfigsUI["TitleSizeX"], 0, getgenv().ConfigsUI["TitleSizeX"])
+	Title.Size = UDim2.new(0, getgenv().ConfigsUI["TitleSizeX"], 0, getgenv().ConfigsUI["TitleSizeY"])
 	Title.Font = getgenv().ConfigsUI["TitleFont"]
 	Title.Text = title
 	Title.TextColor3 = Color3.fromRGB(255, 255, 255)
